@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paper Vault - Class X Paper Access</title>
+  <title>The Paper Vault</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -22,6 +22,7 @@
       align-items: center;
       justify-content: center;
       padding: 2rem;
+      transition: opacity 1s ease;
     }
 
     .logo {
@@ -81,10 +82,19 @@
   <img src="logo.png" alt="Paper Vault Logo" class="logo">
   <h1>Welcome to Paper Vault</h1>
   <p>Unlock thousands of Class X exam papers to practice, prepare, and perform at your best. Safe, organized, and made just for students like you.</p>
-  <button class="cta-button" onclick="location.href='papers.html'">Explore Papers</button>
+  <button class="cta-button" onclick="smoothRedirect()">Explore Papers</button>
 
   <footer>
     Website by Arnav Thete | Sponsored by Pranav Ghaywat
   </footer>
+
+  <script>
+    function smoothRedirect() {
+      document.body.style.opacity = 0;  // Fade out the body
+      setTimeout(function() {
+        window.location.href = "https://papervault.github.io/p/"; // Redirect after fade-out
+      }, 1000);  // Wait 1 second before redirecting
+    }
+  </script>
 </body>
 </html>
