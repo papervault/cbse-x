@@ -20,12 +20,24 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       padding: 2rem;
+    }
+
+    .announcement-banner {
+      background-color: #ffeeba;
+      color: #5c3d00;
+      border: 1px solid #f0c36d;
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .logo {
       width: 180px;
+      height: auto;
       margin-bottom: 1rem;
     }
 
@@ -35,34 +47,31 @@
       margin-bottom: 1rem;
     }
 
-    .description {
+    p {
       text-align: center;
       max-width: 600px;
       font-size: 1.1rem;
       margin-bottom: 2rem;
     }
 
-    .dropdown-container {
+    .cta-section {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
-      width: 100%;
-      max-width: 400px;
     }
 
-    select {
+    select, button {
       padding: 0.6rem;
+      font-size: 1rem;
       border-radius: 6px;
       border: none;
-      font-size: 1rem;
-      color: #1e3c72;
+      outline: none;
     }
 
     .cta-button {
       padding: 0.8rem 2rem;
       background-color: #f7c948;
-      border: none;
       border-radius: 8px;
       font-size: 1rem;
       font-weight: 600;
@@ -75,69 +84,57 @@
       background-color: #f0b429;
     }
 
-    .cta-button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
     .note-box {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid #ffffff50;
+      background-color: #ffffff22;
+      border: 1px solid #ffcc00;
       padding: 1rem;
-      border-radius: 10px;
+      border-radius: 8px;
       margin-top: 2rem;
+      color: #ffebcd;
       max-width: 700px;
-      text-align: left;
-      color: #f8f8f8;
-      font-size: 0.95rem;
     }
 
     .note-box strong {
-      color: #ffcc00;
+      color: #fff700;
     }
 
     .error-message {
-      color: #ff6b6b;
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      display: none;
+      color: red;
+      margin-top: 1rem;
+      font-weight: bold;
     }
 
     footer {
-      margin-top: 2rem;
+      margin-top: auto;
+      padding-top: 2rem;
       font-size: 0.9rem;
       color: #ccc;
     }
 
-.announcement-banner {
-  background-color: #ffeeba;
-  color: #5c3d00;
-  border: 1px solid #f0c36d;
-  padding: 1rem;
-  width: 100%;
-  text-align: center;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
 
+      p {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="announcement-banner">
+    📢 <strong>CBSE BOARD 2025 PAPERS</strong> are yet not released by CBSE.<br />
+    They will be uploaded soon once CBSE releases them.
+  </div>
+
   <img src="logo.png" alt="Paper Vault Logo" class="logo">
   <h1>Welcome to Paper Vault</h1>
-  <p class="description">Download official CBSE Class X papers—all in one place. Clean, fast, and reliable.</p>
+  <p>Download <strong>OFFICIAL CBSE CLASS X PAPERS</strong> at one place!</p>
 
-<div class="announcement-banner">
-  📢 <strong>CBSE BOARD 2025 PAPERS</strong> are yet not released by CBSE.<br />
-  They will be uploaded soon once CBSE releases them.
-</div>
-<br>
-
-  <div class="dropdown-container">
-    <select id="year" onchange="handleYearChange()">
-      <option selected disabled>Select Year</option>
+  <div class="cta-section">
+    <select id="year" onchange="updateSets()">
+      <option value="" disabled selected>Select Year</option>
       <option value="2015">2015</option>
       <option value="2016">2016</option>
       <option value="2017">2017</option>
@@ -147,33 +144,35 @@
       <option value="2023">2023</option>
       <option value="2024">2024</option>
       <option value="2025" disabled style="color:red;">2025 (COMING SOON)</option>
-
     </select>
 
-    <select id="subject" onchange="handleSubjectChange()" disabled>
-      <option selected disabled>Select Subject</option>
+    <select id="subject" onchange="updateSets()" disabled>
+      <option value="" disabled selected>Select Subject</option>
       <option value="english">English Language and Literature</option>
       <option value="science">Science</option>
       <option value="socialscience">Social Science</option>
       <option value="marathi">Marathi</option>
       <option value="hindi">Hindi Course B</option>
-      <option value="math">Mathematics Standard</option>
+      <option value="mathss">Mathematics Standard</option>
       <option value="it">Information Technology</option>
     </select>
 
-    <select id="set" disabled style="display: none;"></select>
+    <div id="set-container" style="display:none;">
+      <select id="set" onchange="enableDownload()">
+        <option value="" disabled selected>Select Set</option>
+      </select>
+    </div>
+
+    <button id="download-button" class="cta-button" onclick="downloadPaper()" style="display:none;">Download Paper</button>
+    <div id="message-box" class="error-message" style="display:none;"></div>
   </div>
 
-  <p class="error-message" id="error-msg">❌ Papers for the selected year are not available as CBSE did not release them online.</p>
-
-  <button class="cta-button" id="downloadBtn" onclick="downloadPaper()" disabled>Download Paper</button>
-
   <div class="note-box">
-    ⚠️ <strong>NOTE:</strong> These are archived CBSE Class X question papers from the past eight years.  
-    The syllabus and paper pattern have changed significantly over time.  
-    Please use these papers to practice questions that align with the 2025 CBSE syllabus.  
-    Papers for the years <strong>2019</strong> and <strong>2021</strong> were not released by CBSE and are therefore unavailable.  
-    Thank you, and best wishes for your preparation!
+    ⚠️ <strong>NOTE:</strong> These are previous years' question papers from the past 8 years.
+    The CBSE syllabus and paper pattern has undergone significant changes since then.
+    Please practice questions that are still relevant to the 2025 CBSE syllabus and do not get confused by outdated questions and patterns.
+    (2019 & 2021 papers are not provided by CBSE, hence not available on this website.)<br><br>
+    Thank you and All the Best!
   </div>
 
   <footer>
@@ -181,134 +180,160 @@
   </footer>
 
   <script>
+    const subjectDisplayNames = {
+      english: "English Language and Literature",
+      science: "Science",
+      socialscience: "Social Science",
+      marathi: "Marathi",
+      hindi: "Hindi Course B",
+      mathss: "Mathematics Standard",
+      it: "Information Technology"
+    };
+
+    const subjectFileNames = {
+      english: "english",
+      science: "science",
+      socialscience: "socialscience",
+      marathi: "marathi",
+      hindi: "hindi",
+      mathss: "mathss",
+      it: "it"
+    };
+
     const setData = {
       english: {
-        2015: [1,2,3],
-        2016: [1,2,3],
-        2017: [1,2,3],
-        2018: [1,2,3],
-        2020: [1,2,3,4,5],
-        2022: [1,2,3,4],
-        2023: [1,2,3,4,5],
-        2024: [1,2,3,4,5]
+        2015: [1, 2, 3],
+        2016: [1, 2, 3],
+        2017: [1, 2, 3],
+        2018: [1, 2, 3],
+        2020: [1, 2, 3, 4, 5],
+        2022: [1, 2, 3, 4],
+        2023: [1, 2, 3, 4, 5],
+        2024: [1, 2, 3, 4, 5]
       },
       science: {
-        2015: [1,2,3],
-        2016: [1,2,3],
-        2017: [1,2,3],
-        2018: [1,2,3],
-        2020: [1,2,3,4,5],
-        2022: [1,2,3,4],
-        2023: [1,2,3,4,5],
-        2024: [1,2,3,4,5]
+        2015: [1, 2, 3],
+        2016: [1, 2, 3],
+        2017: [1, 2, 3],
+        2018: [1, 2, 3],
+        2020: [1, 2, 3, 4, 5],
+        2022: [1, 2, 3, 4],
+        2023: [1, 2, 3, 4, 5],
+        2024: [1, 2, 3, 4, 5]
       },
       socialscience: {
-        2015: [1,2,3],
-        2016: [1,2,3],
-        2017: [1,2,3],
-        2018: [1,2,3],
-        2020: [1,2,3,4,5],
-        2022: [1,2,3,4],
-        2023: [1,2,3,4,5],
-        2024: [1,2,3,4,5]
+        2015: [1, 2, 3],
+        2016: [1, 2, 3],
+        2017: [1, 2, 3],
+        2018: [1, 2, 3],
+        2020: [1, 2, 3, 4, 5],
+        2022: [1, 2, 3, 4],
+        2023: [1, 2, 3, 4, 5],
+        2024: [1, 2, 3, 4, 5]
       },
       marathi: {
-        2015:[1], 2016:[1], 2017:[1], 2018:[1], 2020:[1], 2022:[1], 2023:[1], 2024:[1]
+        2016: [1],
+        2017: [1],
+        2018: [1],
+        2020: [1],
+        2022: [1],
+        2023: [1],
+        2024: [1]
       },
       hindi: {
-        2015: [1,2,3],
-        2016: [1,2,3],
-        2017: [1,2,3],
-        2018: [1,2,3],
-        2020: [1,2,3,4,5],
-        2022: [1,2,3,4],
-        2023: [1,2,3,4,5],
-        2024: [1,2,3,4,5]
+        2015: [1, 2, 3],
+        2016: [1, 2, 3],
+        2017: [1, 2, 3],
+        2018: [1, 2, 3],
+        2020: [1, 2, 3, 4, 5],
+        2022: [1, 2, 3, 4],
+        2023: [1, 2, 3, 4, 5],
+        2024: [1, 2, 3, 4, 5]
       },
-      math: {
-        2015: [1,2,3],
-        2016: [1,2,3],
-        2017: [1,2,3],
-        2018: [1,2,3],
-        2020: [1,2,3,4,5],
-        2022: [1,2,3,4],
-        2023: [1,2,3,4,5],
-        2024: [1,2,3,4,5]
+      mathss: {
+        2015: [1, 2, 3],
+        2016: [1, 2, 3],
+        2017: [1, 2, 3],
+        2018: [1, 2, 3],
+        2020: [1, 2, 3, 4, 5],
+        2022: [1, 2, 3, 4],
+        2023: [1, 2, 3, 4, 5],
+        2024: [1, 2, 3, 4, 5]
       },
       it: {
-        2015:[1], 2016:[1], 2017:[1], 2018:[1], 2020:[1], 2022:[1], 2023:[1], 2024:[1]
+        2016: [1],
+        2017: [1],
+        2018: [1],
+        2020: [1],
+        2022: [1],
+        2023: [1],
+        2024: [1]
       }
     };
 
-    const yearEl = document.getElementById("year");
-    const subjectEl = document.getElementById("subject");
-    const setEl = document.getElementById("set");
-    const downloadBtn = document.getElementById("downloadBtn");
-    const errorMsg = document.getElementById("error-msg");
+    function updateSets() {
+      const year = document.getElementById("year").value;
+      const subject = document.getElementById("subject").value;
+      const subjectDropdown = document.getElementById("subject");
+      const setDropdown = document.getElementById("set");
+      const setContainer = document.getElementById("set-container");
+      const downloadButton = document.getElementById("download-button");
+      const messageBox = document.getElementById("message-box");
 
-    function handleYearChange() {
-      const year = yearEl.value;
-      errorMsg.style.display = "none";
+      subjectDropdown.disabled = !year;
 
-      if (year === "2019" || year === "2021") {
-        subjectEl.disabled = true;
-        setEl.style.display = "none";
-        downloadBtn.disabled = true;
-        errorMsg.style.display = "block";
+      // Reset
+      setDropdown.innerHTML = '<option value="" disabled selected>Select Set</option>';
+      messageBox.style.display = "none";
+      downloadButton.style.display = "none";
+      setContainer.style.display = "none";
+
+      if (!year || !subject) return;
+
+      // Handle special no exam case
+      if ((subject === "marathi" || subject === "it") && year === "2015") {
+        messageBox.style.display = "block";
+        messageBox.textContent = "⚠️ No exam was conducted for " + subjectDisplayNames[subject] + " in 2015.";
         return;
       }
 
-      subjectEl.disabled = false;
-      subjectEl.selectedIndex = 0;
-      setEl.selectedIndex = 0;
-      setEl.disabled = true;
-      setEl.style.display = "none";
-      downloadBtn.disabled = true;
-    }
-
-    function handleSubjectChange() {
-      const year = parseInt(yearEl.value);
-      const subject = subjectEl.value;
-
-      if (!year || !subject || !setData[subject] || !setData[subject][year]) {
-        setEl.style.display = "none";
-        downloadBtn.disabled = true;
+      const sets = setData[subject]?.[year];
+      if (!sets) {
+        messageBox.style.display = "block";
+        messageBox.textContent = "⚠️ Papers not available for selected year and subject.";
         return;
       }
 
-      const sets = setData[subject][year];
-
-      if (sets.length === 1 && (subject === "marathi" || subject === "it")) {
-        setEl.style.display = "none";
-        downloadBtn.disabled = false;
+      // Hide set for marathi/IT
+      if (subject === "marathi" || subject === "it") {
+        setContainer.style.display = "none";
+        downloadButton.style.display = "block";
       } else {
-        setEl.innerHTML = '<option disabled selected>Select Set</option>';
         sets.forEach(set => {
           const option = document.createElement("option");
           option.value = set;
-          option.textContent = "Set " + set;
-          setEl.appendChild(option);
+          option.textContent = `Set ${set}`;
+          setDropdown.appendChild(option);
         });
-        setEl.style.display = "block";
-        setEl.disabled = false;
-        downloadBtn.disabled = true;
+        setContainer.style.display = "block";
       }
     }
 
-    setEl.addEventListener("change", () => {
-      downloadBtn.disabled = false;
-    });
+    function enableDownload() {
+      document.getElementById("download-button").style.display = "block";
+    }
 
     function downloadPaper() {
-      const year = yearEl.value;
-      const subject = subjectEl.value;
-      const sets = setData[subject][year];
-      const set = sets.length === 1 ? sets[0] : setEl.value;
-      const fileName = `${subject}_${year}_${set}.pdf`;
+      const year = document.getElementById("year").value;
+      const subject = document.getElementById("subject").value;
+      const set = document.getElementById("set").value || 1;
+      const fileName = `${subjectFileNames[subject]}_${year}_${set}.pdf`;
       const link = document.createElement("a");
       link.href = `pdf/${fileName}`;
       link.download = fileName;
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
     }
   </script>
 </body>
