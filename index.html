@@ -22,12 +22,10 @@
       align-items: center;
       justify-content: center;
       padding: 2rem;
-      transition: opacity 1s ease;
     }
 
     .logo {
       width: 180px;
-      height: auto;
       margin-bottom: 1rem;
     }
 
@@ -37,11 +35,28 @@
       margin-bottom: 1rem;
     }
 
-    p {
+    .description {
       text-align: center;
       max-width: 600px;
       font-size: 1.1rem;
       margin-bottom: 2rem;
+    }
+
+    .dropdown-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    select {
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      color: #1e3c72;
     }
 
     .cta-button {
@@ -60,40 +75,240 @@
       background-color: #f0b429;
     }
 
+    .cta-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .note-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid #ffffff50;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+      max-width: 700px;
+      text-align: left;
+      color: #f8f8f8;
+      font-size: 0.95rem;
+    }
+
+    .note-box strong {
+      color: #ffcc00;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      display: none;
+    }
+
     footer {
-      position: absolute;
-      bottom: 20px;
+      margin-top: 2rem;
       font-size: 0.9rem;
       color: #ccc;
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
+.announcement-banner {
+  background-color: #ffeeba;
+  color: #5c3d00;
+  border: 1px solid #f0c36d;
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
 
-      p {
-        font-size: 1rem;
-      }
-    }
   </style>
 </head>
 <body>
   <img src="logo.png" alt="Paper Vault Logo" class="logo">
   <h1>Welcome to Paper Vault</h1>
-  <p>Unlock thousands of Class X exam papers to practice, prepare, and perform at your best. Safe, organized, and made just for students like you.</p>
-  <button class="cta-button" onclick="smoothRedirect()">Explore Papers</button>
+  <p class="description">Download official CBSE Class X papers—all in one place. Clean, fast, and reliable.</p>
+
+<div class="announcement-banner">
+  📢 <strong>CBSE BOARD 2025 PAPERS</strong> are yet not released by CBSE.<br />
+  They will be uploaded soon once CBSE releases them.
+</div>
+<br>
+
+  <div class="dropdown-container">
+    <select id="year" onchange="handleYearChange()">
+      <option selected disabled>Select Year</option>
+      <option value="2015">2015</option>
+      <option value="2016">2016</option>
+      <option value="2017">2017</option>
+      <option value="2018">2018</option>
+      <option value="2020">2020</option>
+      <option value="2022">2022</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025" disabled style="color:red;">2025 (COMING SOON)</option>
+
+    </select>
+
+    <select id="subject" onchange="handleSubjectChange()" disabled>
+      <option selected disabled>Select Subject</option>
+      <option value="english">English Language and Literature</option>
+      <option value="science">Science</option>
+      <option value="socialscience">Social Science</option>
+      <option value="marathi">Marathi</option>
+      <option value="hindi">Hindi Course B</option>
+      <option value="math">Mathematics Standard</option>
+      <option value="it">Information Technology</option>
+    </select>
+
+    <select id="set" disabled style="display: none;"></select>
+  </div>
+
+  <p class="error-message" id="error-msg">❌ Papers for the selected year are not available as CBSE did not release them online.</p>
+
+  <button class="cta-button" id="downloadBtn" onclick="downloadPaper()" disabled>Download Paper</button>
+
+  <div class="note-box">
+    ⚠️ <strong>NOTE:</strong> These are archived CBSE Class X question papers from the past eight years.  
+    The syllabus and paper pattern have changed significantly over time.  
+    Please use these papers to practice questions that align with the 2025 CBSE syllabus.  
+    Papers for the years <strong>2019</strong> and <strong>2021</strong> were not released by CBSE and are therefore unavailable.  
+    Thank you, and best wishes for your preparation!
+  </div>
 
   <footer>
     Website by Arnav Thete | Sponsored by Pranav Ghaywat
   </footer>
 
   <script>
-    function smoothRedirect() {
-      document.body.style.opacity = 0;  // Fade out the body
-      setTimeout(function() {
-        window.location.href = "https://papervault.github.io/p/"; // Redirect after fade-out
-      }, 1000);  // Wait 1 second before redirecting
+    const setData = {
+      english: {
+        2015: [1,2,3],
+        2016: [1,2,3],
+        2017: [1,2,3],
+        2018: [1,2,3],
+        2020: [1,2,3,4,5],
+        2022: [1,2,3,4],
+        2023: [1,2,3,4,5],
+        2024: [1,2,3,4,5]
+      },
+      science: {
+        2015: [1,2,3],
+        2016: [1,2,3],
+        2017: [1,2,3],
+        2018: [1,2,3],
+        2020: [1,2,3,4,5],
+        2022: [1,2,3,4],
+        2023: [1,2,3,4,5],
+        2024: [1,2,3,4,5]
+      },
+      socialscience: {
+        2015: [1,2,3],
+        2016: [1,2,3],
+        2017: [1,2,3],
+        2018: [1,2,3],
+        2020: [1,2,3,4,5],
+        2022: [1,2,3,4],
+        2023: [1,2,3,4,5],
+        2024: [1,2,3,4,5]
+      },
+      marathi: {
+        2015:[1], 2016:[1], 2017:[1], 2018:[1], 2020:[1], 2022:[1], 2023:[1], 2024:[1]
+      },
+      hindi: {
+        2015: [1,2,3],
+        2016: [1,2,3],
+        2017: [1,2,3],
+        2018: [1,2,3],
+        2020: [1,2,3,4,5],
+        2022: [1,2,3,4],
+        2023: [1,2,3,4,5],
+        2024: [1,2,3,4,5]
+      },
+      math: {
+        2015: [1,2,3],
+        2016: [1,2,3],
+        2017: [1,2,3],
+        2018: [1,2,3],
+        2020: [1,2,3,4,5],
+        2022: [1,2,3,4],
+        2023: [1,2,3,4,5],
+        2024: [1,2,3,4,5]
+      },
+      it: {
+        2015:[1], 2016:[1], 2017:[1], 2018:[1], 2020:[1], 2022:[1], 2023:[1], 2024:[1]
+      }
+    };
+
+    const yearEl = document.getElementById("year");
+    const subjectEl = document.getElementById("subject");
+    const setEl = document.getElementById("set");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const errorMsg = document.getElementById("error-msg");
+
+    function handleYearChange() {
+      const year = yearEl.value;
+      errorMsg.style.display = "none";
+
+      if (year === "2019" || year === "2021") {
+        subjectEl.disabled = true;
+        setEl.style.display = "none";
+        downloadBtn.disabled = true;
+        errorMsg.style.display = "block";
+        return;
+      }
+
+      subjectEl.disabled = false;
+      subjectEl.selectedIndex = 0;
+      setEl.selectedIndex = 0;
+      setEl.disabled = true;
+      setEl.style.display = "none";
+      downloadBtn.disabled = true;
+    }
+
+    function handleSubjectChange() {
+      const year = parseInt(yearEl.value);
+      const subject = subjectEl.value;
+
+      if (!year || !subject || !setData[subject] || !setData[subject][year]) {
+        setEl.style.display = "none";
+        downloadBtn.disabled = true;
+        return;
+      }
+
+      const sets = setData[subject][year];
+
+      if (sets.length === 1 && (subject === "marathi" || subject === "it")) {
+        setEl.style.display = "none";
+        downloadBtn.disabled = false;
+      } else {
+        setEl.innerHTML = '<option disabled selected>Select Set</option>';
+        sets.forEach(set => {
+          const option = document.createElement("option");
+          option.value = set;
+          option.textContent = "Set " + set;
+          setEl.appendChild(option);
+        });
+        setEl.style.display = "block";
+        setEl.disabled = false;
+        downloadBtn.disabled = true;
+      }
+    }
+
+    setEl.addEventListener("change", () => {
+      downloadBtn.disabled = false;
+    });
+
+    function downloadPaper() {
+      const year = yearEl.value;
+      const subject = subjectEl.value;
+      const sets = setData[subject][year];
+      const set = sets.length === 1 ? sets[0] : setEl.value;
+      const fileName = `${subject}_${year}_${set}.pdf`;
+      const link = document.createElement("a");
+      link.href = `pdf/${fileName}`;
+      link.download = fileName;
+      link.click();
     }
   </script>
 </body>
