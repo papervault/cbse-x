@@ -23,18 +23,6 @@
       padding: 2rem;
     }
 
-    .announcement-banner {
-      background-color: #ffeeba;
-      color: #5c3d00;
-      border: 1px solid #f0c36d;
-      padding: 1rem;
-      width: 100%;
-      text-align: center;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
     .logo {
       width: 180px;
       height: auto;
@@ -126,25 +114,14 @@
   <img src="logo.png" alt="Paper Vault Logo" class="logo">
   <h1>Welcome to Paper Vault</h1>
   <p>Download official CBSE Class X papers—all in one place. Clean, fast, and reliable.</p>
-  <br>
-  <div class="announcement-banner">
-    📢 <strong>CBSE BOARD 2025 PAPERS</strong> are yet not released by CBSE.<br />
-    They will be uploaded soon once CBSE releases them.
-  </div>
-<br>
 
   <div class="cta-section">
     <select id="year" onchange="updateSets()">
       <option value="" disabled selected>Select Year</option>
-      <option value="2015">2015</option>
-      <option value="2016">2016</option>
-      <option value="2017">2017</option>
-      <option value="2018">2018</option>
-      <option value="2020">2020</option>
       <option value="2022">2022</option>
       <option value="2023">2023</option>
       <option value="2024">2024</option>
-      <option value="2025" disabled style="color:red;">2025 (COMING SOON)</option>
+      <option value="2025">2025</option>
     </select>
 
     <select id="subject" onchange="updateSets()" disabled>
@@ -169,10 +146,10 @@
   </div>
 
   <div class="note-box">
-    ⚠️ <strong>NOTE:</strong> These are previous years' question papers from the past 8 years.
-    The CBSE syllabus and paper pattern has undergone significant changes since then.
-    Please practice questions that are still relevant to the 2025 CBSE syllabus and do not get confused by outdated questions and patterns.
-    (2019 & 2021 papers are not provided by CBSE, hence not available on this website.)<br><br>
+    ⚠️ <strong>NOTE:</strong> These are previous years' question papers from the past years.
+    The CBSE syllabus and paper pattern has undergone significant changes over time.
+    Please practice questions that are still relevant to the 2026 CBSE syllabus and do not get confused by outdated questions and patterns.
+    <br>
     Thank you and All the Best!
   </div>
 
@@ -203,72 +180,46 @@
 
     const setData = {
       english: {
-        2015: [1, 2, 3],
-        2016: [1, 2, 3],
-        2017: [1, 2, 3],
-        2018: [1, 2, 3],
-        2020: [1, 2, 3, 4, 5],
         2022: [1, 2, 3, 4],
         2023: [1, 2, 3, 4, 5],
-        2024: [1, 2, 3, 4, 5]
+        2024: [1, 2, 3, 4, 5],
+        2025: [1, 2, 3, 4, 5]
       },
       science: {
-        2015: [1, 2, 3],
-        2016: [1, 2, 3],
-        2017: [1, 2, 3],
-        2018: [1, 2, 3],
-        2020: [1, 2, 3, 4, 5],
         2022: [1, 2, 3, 4],
         2023: [1, 2, 3, 4, 5],
-        2024: [1, 2, 3, 4, 5]
+        2024: [1, 2, 3, 4, 5],
+        2025: [1, 2, 3, 4, 5]
       },
       socialscience: {
-        2015: [1, 2, 3],
-        2016: [1, 2, 3],
-        2017: [1, 2, 3],
-        2018: [1, 2, 3],
-        2020: [1, 2, 3, 4, 5],
         2022: [1, 2, 3, 4],
         2023: [1, 2, 3, 4, 5],
-        2024: [1, 2, 3, 4, 5]
+        2024: [1, 2, 3, 4, 5],
+        2025: [1, 2, 3, 4, 5]
       },
       marathi: {
-        2016: [1],
-        2017: [1],
-        2018: [1],
-        2020: [1],
         2022: [1],
         2023: [1],
-        2024: [1]
+        2024: [1],
+        2025: [1]
       },
       hindi: {
-        2015: [1, 2, 3],
-        2016: [1, 2, 3],
-        2017: [1, 2, 3],
-        2018: [1, 2, 3],
-        2020: [1, 2, 3, 4, 5],
         2022: [1, 2, 3, 4],
         2023: [1, 2, 3, 4, 5],
-        2024: [1, 2, 3, 4, 5]
+        2024: [1, 2, 3, 4, 5],
+        2025: [1, 2, 3, 4, 5]
       },
       mathss: {
-        2015: [1, 2, 3],
-        2016: [1, 2, 3],
-        2017: [1, 2, 3],
-        2018: [1, 2, 3],
-        2020: [1, 2, 3, 4, 5],
         2022: [1, 2, 3, 4],
         2023: [1, 2, 3, 4, 5],
-        2024: [1, 2, 3, 4, 5]
+        2024: [1, 2, 3, 4, 5],
+        2025: [1, 2, 3, 4, 5]
       },
       it: {
-        2016: [1],
-        2017: [1],
-        2018: [1],
-        2020: [1],
         2022: [1],
         2023: [1],
-        2024: [1]
+        2024: [1],
+        2025: [1]
       }
     };
 
@@ -283,20 +234,12 @@
 
       subjectDropdown.disabled = !year;
 
-      // Reset
       setDropdown.innerHTML = '<option value="" disabled selected>Select Set</option>';
       messageBox.style.display = "none";
       downloadButton.style.display = "none";
       setContainer.style.display = "none";
 
       if (!year || !subject) return;
-
-      // Handle special no exam case
-      if ((subject === "marathi" || subject === "it") && year === "2015") {
-        messageBox.style.display = "block";
-        messageBox.textContent = "⚠️ No exam was conducted for " + subjectDisplayNames[subject] + " in 2015.";
-        return;
-      }
 
       const sets = setData[subject]?.[year];
       if (!sets) {
@@ -305,19 +248,24 @@
         return;
       }
 
-      // Hide set for marathi/IT
       if (subject === "marathi" || subject === "it") {
-        setContainer.style.display = "none";
-        downloadButton.style.display = "block";
-      } else {
-        sets.forEach(set => {
-          const option = document.createElement("option");
-          option.value = set;
-          option.textContent = `Set ${set}`;
-          setDropdown.appendChild(option);
-        });
-        setContainer.style.display = "block";
+        if (sets.includes(1)) {
+          setContainer.style.display = "none";
+          downloadButton.style.display = "block";
+        } else {
+          messageBox.style.display = "block";
+          messageBox.textContent = "⚠️ No exam was conducted for " + subjectDisplayNames[subject] + " in " + year + ".";
+        }
+        return;
       }
+
+      sets.forEach(set => {
+        const option = document.createElement("option");
+        option.value = set;
+        option.textContent = `Set ${set}`;
+        setDropdown.appendChild(option);
+      });
+      setContainer.style.display = "block";
     }
 
     function enableDownload() {
